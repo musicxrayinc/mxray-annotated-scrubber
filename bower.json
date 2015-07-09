@@ -1,0 +1,31 @@
+{
+  "name": "mxray-annotated-scrubber",
+  "version": "0.0.0",
+  "homepage": "https://github.com/musicxrayinc/mxray-annotated-scrubber",
+  "authors": [
+    "jeff durand <jeff.durand@gmail.com>"
+  ],
+  "description": "annotated scrub bar for use in mxra-player-container",
+  "main": "mxray-annotated-scrubber.html",
+  "moduleType": [
+    "globals"
+  ],
+  "keywords": [
+    "player",
+    "mp3",
+    "audio",
+    "mxray"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.3",
+    "polymer": "polymer/polymer#^1.0.3"
+  }
+}

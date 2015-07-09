@@ -1,0 +1,29 @@
+<link rel="import" href="../polymer/polymer.html">
+
+
+<dom-module id="mxray-annotated-scrubber">
+  <style>
+    :host .outerbox {
+      position: relative;
+      overflow: hidden;
+      padding: 0px;
+      margin: 0px;
+      border: none;
+      height: 100%;
+      width: 100%;
+    }
+    
+  </style>
+  <template>
+    <div class="outerbox">
+      <content select="mxray-track-annotations"></content>
+    </div>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'mxray-annotated-scrubber'
+    });
+  </script>
+
+</dom-module>
