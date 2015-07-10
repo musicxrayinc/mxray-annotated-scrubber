@@ -43,7 +43,9 @@
 	},
 	markers: {
 	  type: Array,
-	  value: [],
+	  value: function() {
+	    return [];
+	  },
 	  notify: true
 	},
 	last_selected: {
@@ -52,8 +54,12 @@
 	  notify: true
 	}
       },
+      observers: [
+	'_handleDurationChange(markers.splices)'
+      ],
       // re-adjust markers as soon as we have a duration
       _handleDurationChange: function(){
+	if(!this.duration) return false;
 	var duration = this.duration.toString();	
 	duration = parseFloat(duration);
 	if( duration > 0.0 ) {
