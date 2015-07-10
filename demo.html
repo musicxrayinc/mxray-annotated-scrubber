@@ -6,12 +6,13 @@
     <meta name="mobile-web-app-capable" content="yes">
     <script src="../webcomponentsjs/webcomponents-lite.js"></script>
     <link rel="import" href="mxray-annotated-scrubber.html">
-    <style>
+
+    <style is="custom-style">
       mxray-annotated-scrubber {
 	display: block;
 	width: 70%;
 	height: 30px;
-	border: 1px solid #000;
+	border: 1px solid #D1D1D1;
       }
     </style>
   </head>
@@ -19,13 +20,53 @@
     <template is="dom-bind">
       <div>
         <label>duration</label>
-        <input type="text" value="{{duration::input}}"/>
+        <input type="text" value="{{duration::input}}" id="duration"/>
       </div>
       <div>
         <label>playhead</label>
         <input type="text" value="{{playhead::input}}"/>
       </div>
-      <mxray-annotated-scrubber style="width: 90%;" duration="{{duration}}" playhead="{{playhead}}"></mxray-annotated-scrubber>
+      <span>Last selected <span>{{_ls.annotation}}</span></span>
+      <mxray-annotated-scrubber style="width: 100%;" duration="{{duration}}" playhead="{{playhead}}" last_selected="{{_ls}}"></mxray-annotated-scrubber>
     </template>
+    <h3 id="annotation"></h3>
   </body>
+  <script>
+    // add some data to the mxray-annotated-scrubber
+      var example_markers = [
+	  {
+	    type: 'icon',
+	    time: 42, // the time on the timeline to mark...
+	    icon: '1',
+	    annotation: 'This is where the hook starts',
+	    style: {
+	      "background-color": "#D1D1D1",
+	      "color": "#333",
+	      "padding": "3px 10px 3px 10px",
+	      "font-size": "16px",
+	      "font-weight": "bolder"
+	    }
+	  },
+	  {
+	    type: 'icon',
+	    time: 78, // the time on the timeline to mark...
+	    icon: '2',
+	    annotation: 'This is where the hook ends',
+	    style: {
+	      "background-color": "#333",
+	      "color": "#999",
+	      "padding": "3px 10px 3px 10px"
+	    }
+	  }
+	];
+	setTimeout(function(){
+	  var element = document.querySelector('mxray-annotated-scrubber');
+	  element.markers = example_markers;
+	  element.duration = 200;
+	  element.addEventListener('clicked_timeline',function(evt){
+	    console.log(evt.detail.origEvent.model.item.annotation);
+	  });
+	}, 500);
+
+  </script>
 </html>

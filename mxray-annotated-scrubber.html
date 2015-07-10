@@ -12,17 +12,71 @@
       height: 100%;
       width: 100%;
     }
-    
+    :host div.outerbox > span {
+      display: inline-block;
+    }
   </style>
   <template>
     <div class="outerbox">
-      <content select="mxray-track-annotations"></content>
+      <template is="dom-repeat" items="{{markers}}" >
+	<span data-marker="true" on-click="_handleMarkerClicked" style$="{{item._computed_style}}">
+	  <span>{{ item.icon }}</span>
+	</span>
+      </template>
     </div>
   </template>
 
   <script>
     Polymer({
-      is: 'mxray-annotated-scrubber'
+      is: 'mxray-annotated-scrubber',
+      properties: {
+	playhead: {
+	  type: Number,
+	  value: 0,
+	  notify: true
+	},
+	duration: {
+	  type: Number,
+	  value: 0,
+	  notify: true,
+	  observer: '_handleDurationChange'
+	},
+	markers: {
+	  type: Array,
+	  value: [],
+	  notify: true
+	},
+	last_selected: {
+	  type: Object,
+	  value: null,
+	  notify: true
+	}
+      },
+      // re-adjust markers as soon as we have a duration
+      _handleDurationChange: function(){
+	var duration = this.duration.toString();	
+	duration = parseFloat(duration);
+	if( duration > 0.0 ) {
+	  for(var i = 0; i < this.markers.length; i++){
+	    var marker = this.markers[i];
+	    var percentage = (marker.time / duration) * 100;
+	    var left_percent = '' + percentage + '%';
+	    var additional_styles = 'position: absolute; top: 0px; left: ' + left_percent + ';';
+	    if(marker.style && typeof marker.style === "object"){
+	      for(var prop in marker.style){
+		additional_styles += '' +  prop + ': ' + marker.style[prop] + '; ';
+	      }
+	    }
+	    //console.log(additional_styles)
+	    this.set('markers.' + i + '._computed_style', additional_styles);
+	  }
+	}
+      },
+      _handleMarkerClicked: function(evt){
+	this.playhead = evt.model.item.time;
+	this.last_selected = evt.model.item;
+	this.fire('clicked_timeline', {origEvent: evt});
+      }
     });
   </script>
 
