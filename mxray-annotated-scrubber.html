@@ -81,7 +81,7 @@
       _handleMarkerClicked: function(evt){
 	this.playhead = evt.model.item.time;
 	this.last_selected = evt.model.item;
-	this.fire('clicked_timeline', {origEvent: evt});
+	this.fire('clicked_timeline', {origEvent: evt, sender: this});
       }
     });
   </script>
