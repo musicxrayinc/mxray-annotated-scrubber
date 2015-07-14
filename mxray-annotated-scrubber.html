@@ -14,13 +14,14 @@
     }
     :host div.outerbox > span {
       display: inline-block;
+      cursor: pointer;
     }
   </style>
   <template>
     <div class="outerbox">
       <template is="dom-repeat" items="{{markers}}" >
 	<span data-marker="true" on-click="_handleMarkerClicked" style$="{{item._computed_style}}">
-	  <span>{{ item.icon }}</span>
+	  <span class$="{{item.class}}">{{ item.icon }}</span>
 	</span>
       </template>
     </div>
@@ -46,7 +47,8 @@
 	  value: function() {
 	    return [];
 	  },
-	  notify: true
+	  notify: true,
+	  observer: '_handleDurationChange'
 	},
 	last_selected: {
 	  type: Object,
@@ -60,6 +62,8 @@
       // re-adjust markers as soon as we have a duration
       _handleDurationChange: function(){
 	if(!this.duration) return false;
+	if(!this.markers) return false;
+
 	var duration = this.duration.toString();	
 	duration = parseFloat(duration);
 	if( duration > 0.0 ) {
